@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var WordPOS = require('wordpos'),
+    wordpos = new WordPOS();
 
 // returns the path to the word list which is separated by `\n`
 var wordListPath = require('word-list');
@@ -23,9 +25,17 @@ for (var word in wordArray) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
   // assign those variables badly
-  var word1 = words[Math.floor((Math.random() * words.length) + 1)];
-  var word2 = words[Math.floor((Math.random() * words.length) + 1)];
-  res.render('index', { title: word1 + ' ' + word2});
+  wordpos.getAdjectives(words, function(result1){
+    var word1 = result1[Math.floor((Math.random() * result1.length) + 1)];
+      // console.log(result);
+      wordpos.getNouns(words, function(result2) {
+        var word2 = result2[Math.floor((Math.random() * result2.length) + 1)];
+        res.render('index', { title: word1 + ' ' + word2});
+    })
+  });
+
+
+
 });
 
 module.exports = router;
