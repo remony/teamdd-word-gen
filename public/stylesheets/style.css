@@ -1,0 +1,29 @@
+html, body, .flexbox-container {
+  height:100%;
+  overflow:hidden;
+  padding:0;
+  margin:0;
+  font-family: 'Open Sans', sans-serif;
+  background: #263238;
+}
+
+.flexbox-container {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+
+	align-items: center;
+  text-align: center;
+}
+
+.something {
+  text-align:center;
+  width: 100%;
+  font-size:2em;
+  font-weight: 800;
+  color: #fff;
+}
