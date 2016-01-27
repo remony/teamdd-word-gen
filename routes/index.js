@@ -11,28 +11,37 @@ var wordArray = fs.readFileSync(wordListPath, 'utf8').split('\n');
 // its an empty words array
 var words = [];
 
-// for each word thats in the dictionary (OW memory)
-for (var word in wordArray) {
-  // if it start with d, is HAS to start with d or we don't want it...
-  if (wordArray[word].charAt(0) === 'd') {
-    // add it to that empty words array eariler
-    words.push(wordArray[word]);
-  }
 
-}
+var processWords = new Promise(function(resolve, reject) {
+  // for each word thats in the dictionary (OW memory)
+  for (var word in wordArray) {
+    // if it start with d, is HAS to start with d or we don't want it...
+    if (wordArray[word].charAt(0) === 'd') {
+      // add it to that empty words array eariler
+      words.push(wordArray[word]);
+    }
+
+  }
+  resolve("Success")
+})
+
+var adjectives, nouns;
+
+processWords.then(function(value) {
+  wordpos.getAdjectives(words, function(result1){
+    adjectives = result1;
+  });
+  wordpos.getNouns(words, function(result2) {
+    nouns = result2;
+  });
+  console.log("got the words")
+});
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   // assign those variables badly
-  wordpos.getAdjectives(words, function(result1){
-    var word1 = result1[Math.floor((Math.random() * result1.length) + 1)];
-      // console.log(result);
-      wordpos.getNouns(words, function(result2) {
-        var word2 = result2[Math.floor((Math.random() * result2.length) + 1)];
-        res.render('index', { title: word1 + ' ' + word2});
-    })
-  });
+  res.render('index', { title: adjectives[Math.floor((Math.random() * adjectives.length) + 1)] + ' ' + nouns[Math.floor((Math.random() * nouns.length) + 1)]});
 
 
 
